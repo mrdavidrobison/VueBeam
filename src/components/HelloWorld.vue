@@ -1,15 +1,34 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ movies }}</h1>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+let url = process.env.AWS_TEST_URL
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      movies: []
+    }
+  },
+  methods: {
+    insertMovie () {
+      axios
+        .get(url).then(response => {
+          this.movie = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+          return false
+        })
     }
   }
 }
